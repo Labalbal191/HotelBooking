@@ -38,24 +38,38 @@ code {
   width: 100% !important;
 
 }
-.btn{
+.details_btn{
   background-color: black !important;
   color: white !important;
   box-shadow: none !important;
   border: none;
   margin-bottom: 10px !important;
   border-radius: 40px ;
+  font-size: 20px;
 } 
 
 .row{
   margin-left: auto !important;
   border-radius: 50px ;  
 }
+
 h1{
   font-size: 30px ;
 }
+
+.fullsizeimg{
+  height: 600px;
+  width: 100%;
+  border-radius: 30px !important;
+}
+
 .bx_shadow{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   margin-top: 30px;
   padding: 15px;
+}
+
+.modal-content  {
+  border-radius: 50px; 
+  padding: 10px;
 }
