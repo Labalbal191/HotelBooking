@@ -27,3 +27,12 @@ code {
 .navbar-nav{
   margin-left: auto !important;
 }
+
+.smallimg{
+  height: 200px;
+  width: 100% !important;
+
+}
+.row{
+  margin-left: auto !important;
+}
