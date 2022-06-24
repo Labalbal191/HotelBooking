@@ -38,14 +38,14 @@ code {
   width: 100% !important;
 
 }
-.details_btn{
+.room_btn{
   background-color: black !important;
   color: white !important;
   box-shadow: none !important;
   border: none;
   margin-bottom: 10px !important;
   border-radius: 40px ;
-  font-size: 20px;
+  font-size: 20px; 
 } 
 
 .row{
