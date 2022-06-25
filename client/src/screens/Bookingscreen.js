@@ -11,7 +11,7 @@ function Bookingscreen({match}) {
     try {
         setloading(true)
         async function gettingRoom() {
-            const data = (await axios.post('./api/rooms/getroombyid', {roomid : match.params.roomid})).data
+          const data = (await axios.post('/api/rooms/getroombyid', {roomid : match.params.roomid})).data
             setroom(data)
             setloading(false)
         }

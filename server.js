@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const dbConfig = require('./db')
 app.use(express.json())
-
 const roomsRoute = require('./routes/roomsRoute')
 app.use('/api/rooms', roomsRoute)
 
