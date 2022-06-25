@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Room from '../components/Room'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
 
 function Homescreen() {
 
@@ -13,7 +15,7 @@ function Homescreen() {
 
             setloading(true)
             async function gettingRooms() {
-                const data = (await axios.get('./api/rooms/getallrooms')).data
+                const data = (await axios.get('./api/rooms/getallrooms=')).data
                 setrooms(data)
                 setloading(false)
             }
@@ -21,7 +23,7 @@ function Homescreen() {
         }
         catch (error) {
             seterror(true)
-            console.log(error)
+            //console.log(error)
             setloading(false)
         }
     }, [])
@@ -29,11 +31,16 @@ function Homescreen() {
     return (
         <div className='container'>   
             <div className='row justify-content-center mt-5'>      
-                {loading && rooms.length>0  ? (<h1>Loading...</h1>) : error ? (<h1>Error</h1>) : (rooms.map(room => {
+                {loading ? 
+                    (<Loader/>) 
+                : rooms.length>1 ? 
+                    (rooms.map(room => {
                         return <div className='com-md-9 mt-2'> 
                             <Room room={room}/>
-                        </div>;              
-                }))}
+                        </div>              
+                }))
+                :<Error/>
+            }
             </div>
         </div>
     );
