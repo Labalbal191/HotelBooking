@@ -12,12 +12,12 @@ function Navbar() {
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="/register">
-                                Register
+                                Zarejestruj się
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/login">
-                                Login
+                                Zaloguj
                             </a>
                         </li>
                     </ul>

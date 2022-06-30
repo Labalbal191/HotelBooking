@@ -12,18 +12,19 @@ function Room({ room }) {
       <div className='col-md-4'>
         <img src={room.imageurls[0]} alt={room.imageurls[0]} className="smallimg" />
       </div>
-      <div className='col-md-7'>
+      <div className='col-md-8'>
         <h1>{room.name}</h1>
         <b>
           <p>Max people: {room.maxcount}</p>
           <p>Phonenumber: {room.phonenumber}</p>
           <p>Type: {room.type}</p>
         </b>
-        <div style={{ float: 'right' }}>
-          <button className='room_btn btn-primary m-3' onClick={handleShow}> See the details</button>
+        <div style={{ float: 'right'}}>
+          <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
           <Link to ={`/book/${room._id}`}>
-          <button className='room_btn btn-primary'> Book</button>
+          <button className='room_btn btn-primary' > Zarezerwuj</button>
           </Link>
+          
         </div>
       </div>
 
