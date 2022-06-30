@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import axios from 'axios'
 
 function Registerscreen() {
 
@@ -7,7 +8,7 @@ function Registerscreen() {
     const[password, setpassword] = useState('')
     const[passconf, setpassconf] = useState('')
     
-    function register(){
+    async function register(){
         if(password == passconf){
             const user={
                 name,
@@ -15,7 +16,11 @@ function Registerscreen() {
                 password,
                 passconf
             }
-            console.log(user)
+            try{
+                const result = await axios.post('/api/users/register', user).data
+            }catch(error){   
+                console.log(error)
+            }
         }
         else{
             alert("Hasła nie są takie same")
