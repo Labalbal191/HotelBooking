@@ -31,7 +31,8 @@ function Bookingscreen({ match }) {
       {loading ?
         (<Loader />)
         : room ?
-          (<div>
+          (
+            <div>
             <div className='row justify-content-center mt-6 bx_shadow'>
               <div className='col-md-6'>
                 <h1>{room.name}</h1>

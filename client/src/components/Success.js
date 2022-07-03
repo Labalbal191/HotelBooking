@@ -1,11 +1,13 @@
 import React from 'react'
 
-function Success() {
+function Success({message}) {
     return (
-        <div class="alert alert-success" role="alert">
-            Success
+        <div>
+            <div class="alert alert-success" role="alert">
+            {message}
+            </div>
         </div>
-    )
+    );
 }
 
 export default Success

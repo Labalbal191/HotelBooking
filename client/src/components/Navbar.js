@@ -1,6 +1,9 @@
 import React from 'react'
 
 function Navbar() {
+
+    //const user = localStorage.getItem('currentUser')
+
     return (
         <div>
             <nav class="navbar navbar-expand-lg">
@@ -10,16 +13,16 @@ function Navbar() {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">
-                                Zarejestruj się
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">
-                                Zaloguj
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                                    <a class="nav-link" href="/register">
+                                        Zarejestruj się
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/login">
+                                            Zaloguj
+                                        </a>
+                                </li>
                     </ul>
                 </div>
             </nav>

@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
+import Success from '../components/Success'
 
 function Registerscreen() {
 
@@ -7,9 +10,20 @@ function Registerscreen() {
     const[email, setemail] = useState('')
     const[password, setpassword] = useState('')
     const[passconf, setpassconf] = useState('')
+
+    const [loading, setloading] = useState(false)
+    const [error, seterror] = useState()
+    const [success, setsuccess] = useState()
     
+    function isEmpty(str) {
+        return (!str || str.length === 0 );
+    }
+
     async function register(){
-        if(password == passconf){
+        if(isEmpty(name) || isEmpty(email) || isEmpty(password) || isEmpty(passconf)){
+            alert("Nie podano wszystkich danych")
+        }
+        else if(password == passconf){
             const user={
                 name,
                 email,
@@ -17,20 +31,34 @@ function Registerscreen() {
                 passconf
             }
             try{
+                setloading(true)
                 const result = await axios.post('/api/users/register', user).data
-            }catch(error){   
+                setloading(false)
+                setsuccess(true)
+                
+                setname('')
+                setemail('')
+                setpassword('')
+                setpassconf('')
+            }catch(error){
                 console.log(error)
+                setloading(false)
+                seterror(true)
             }
         }
         else{
-            alert("Hasła nie są takie same")
+            error && <Error message ='Coś poszło nie tak'/>
         }
     }
 
   return (
     <div>
+        {loading && (<Loader/>)}
+        {error && <Error message ='Coś poszło nie tak'/>}
+
        <div className ="row justify-content-center mt-5">
             <div className='col-md-2 mt-5'>
+            {success && (<Success message ='Zarejestrowano pomyślnie'/>)}
                 <div>
                     <h1>Zarejestruj się</h1>
                     <input type="text" className='form-control' placeholder='Nazwa użytkownika'
