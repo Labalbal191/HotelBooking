@@ -13,6 +13,8 @@ function Registerscreen() {
 
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
+    const [errorPass, seterrorPass] = useState(false)
+    const [errorData, seterrorData] = useState(false)
     const [success, setsuccess] = useState()
     
     function isEmpty(str) {
@@ -20,8 +22,10 @@ function Registerscreen() {
     }
 
     async function register(){
+        seterrorData(false)
+        seterrorPass(false)
         if(isEmpty(name) || isEmpty(email) || isEmpty(password) || isEmpty(passconf)){
-            alert("Nie podano wszystkich danych")
+            seterrorData(true)
         }
         else if(password == passconf){
             const user={
@@ -47,18 +51,22 @@ function Registerscreen() {
             }
         }
         else{
-            error && <Error message ='Coś poszło nie tak'/>
+           seterrorPass(true)
         }
     }
 
   return (
-    <div>
+    <div >
         {loading && (<Loader/>)}
-        {error && <Error message ='Coś poszło nie tak'/>}
-
-       <div className ="row justify-content-center mt-5">
-            <div className='col-md-2 mt-5'>
-            {success && (<Success message ='Zarejestrowano pomyślnie'/>)}
+        
+        <div className ="row justify-content-center mt-5">
+            <div className='col-md-2 mt-5' >
+                
+                {errorPass&&<Error message ='Hasła muszą być jednakowe'/>}   
+                {errorData&& <Error message ='Nie podano wszystkich danych'/>}  
+                {error &&<Error message ='Ups, coś poszło nie tak'/>}  
+                {success && (<Success message ='Zarejestrowano pomyślnie'/>)}
+                
                 <div>
                     <h1>Zarejestruj się</h1>
                     <input type="text" className='form-control' placeholder='Nazwa użytkownika'
@@ -73,7 +81,7 @@ function Registerscreen() {
                     <input type="password" className='form-control' placeholder='Potwierdź hasło'
                     value={passconf} onChange={(e)=>{setpassconf(e.target.value)}}/>
 
-                    <button className='room_btn' onClick={register} style={{ float: 'right'}}> Zarejestruj się</button>
+                    <button  className='room_btn' onClick={register} style={{ float: 'right'}}> Zarejestruj się</button>
                 </div>
             </div>
        </div>
