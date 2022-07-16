@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Button, Carousel } from 'react-bootstrap'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function Room({ room, fromdate, todate }) {
   const [show, setShow] = useState(false);
@@ -19,12 +19,14 @@ function Room({ room, fromdate, todate }) {
           <p>Phonenumber: {room.phonenumber}</p>
           <p>Type: {room.type}</p>
         </b>
-        <div style={{ float: 'right'}}>
+        <div style={{ float: 'right' }}>
           <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
-          <Link to ={`/book/${room._id}/${fromdate}/${todate}`}>
-          <button className='room_btn btn-primary' > Zarezerwuj</button>
-          </Link>
-          
+          {(fromdate && todate) &&
+            (<Link to={`/book/${room._id}/${fromdate}/${todate}`}>
+              <button className='room_btn btn-primary' > Zarezerwuj</button>
+            </Link>)
+          }
+
         </div>
       </div>
 

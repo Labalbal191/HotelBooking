@@ -21,6 +21,7 @@ router.post("/getroombyid", async(req, res) => {
          const room = await Room.findOne({'_id' : req.body.roomid})
          res.send(room)
     } catch (error) {
+        console.log(error)
          return res.status(400).json({ message: error });
     }
 });

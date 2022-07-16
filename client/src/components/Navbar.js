@@ -21,7 +21,7 @@ function Navbar() {
                             <>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/register">
-                                        Moje rezerwacje
+                                        {((JSON.parse(localStorage.getItem("currentUser"))).data).name}
                                     </a>
                                 </li>
                                 <li class="nav-item">

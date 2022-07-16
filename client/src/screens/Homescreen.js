@@ -21,7 +21,7 @@ function Homescreen() {
 
             setloading(true)
             async function gettingRooms() {
-                const data = (await axios.get('./api/rooms/getallrooms')).data
+                const data = (await axios.get('/api/rooms/getallrooms')).data
                 setrooms(data)
                 setloading(false)
             }
