@@ -51,6 +51,8 @@ function Bookingscreen({ match }) {
       todate,
       totalamount,
       totaldays,
+      barek,
+      spa,
       token
     }
 
@@ -91,6 +93,7 @@ function isSpa(a){
     settotalamount(duplicateprice)
   }
 }
+
   return (
     <div className='m-5'>
       {loading ?
@@ -133,7 +136,7 @@ function isSpa(a){
                     <p> <center>Suma: {totalamount} zł</center> </p>
                   </b>
                   <div>
-
+                    
                     <StripeCheckout
                       amount={totalamount * 100}
                       token={onToken}
@@ -142,7 +145,11 @@ function isSpa(a){
                     >
                       <button style={{ float: 'right' }} className='room_btn'> Zarezerwuj</button>
                     </StripeCheckout>
+                   
                   </div>
+                  <button style={{ float: 'right' }} className='room_btn' href="/home" > 
+                  <a class="room_btn" href="/home" >Anuluj</a>
+                  </button>
                 </div>
               </div>
               </div>

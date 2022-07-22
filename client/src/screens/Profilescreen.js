@@ -93,6 +93,8 @@ export function MyBookings() {
                         <p><b>ID Rezerwacji:</b> {booking._id}</p>
                         <p><b>Zameldowanie:</b> {booking.fromdate}</p>
                         <p><b>Wymeldowanie: </b> {booking.todate}</p>
+                        <p><b>Barek w pokoju: </b> {booking.barek}</p>
+                        <p><b>Dostęp do SPA: </b> {booking.spa}</p>
                         <p><b>Kwota:</b> {booking.totalamount} zł</p>
                         <p><b>Status:</b> {booking.status == 'Zarezerwowany' ? ( <Tag color="lime">Zarezerwowany</Tag>): (<Tag color="red">Rezerwacja anulowana</Tag>)} 
                         {booking.status !== 'Anulowana' &&(

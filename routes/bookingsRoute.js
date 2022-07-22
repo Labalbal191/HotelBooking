@@ -14,6 +14,8 @@ router.post("/bookroom", async (req, res) => {
         todate,
         totalamount,
         totaldays,
+        barek,
+        spa,
         token
     } = req.body
     try {
@@ -28,7 +30,7 @@ router.post("/bookroom", async (req, res) => {
             receipt_email: token.email
 
         }, {
-            idempotencyKey: uuidv4()
+            idempotencyKey: uuidv4(),
         }
         )
         if (payment) {
@@ -41,7 +43,10 @@ router.post("/bookroom", async (req, res) => {
                     todate: moment(todate).format("DD-MM-YYYY"),
                     totalamount,
                     totaldays,
-                    transactionId: '1234'
+                    barek,
+                    spa,
+                    transactionId: '1234',
+                    status: 'Zarezerwowany'
                 })
                 const booking = await newbooking.save()
 

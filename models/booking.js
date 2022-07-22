@@ -23,8 +23,14 @@ const bookingSchema = mongoose.Schema({
     totaldays : {
         type: Number, required: true
     },
+    barek : {
+        type: String, required: true, default: "Nie"
+    },
+    spa : {
+        type: String, required: true, default: "Nie"
+    },
     transactionid : {
-        type: String, required: true, default : "123"
+       type: String, required: true, default : "123"
     },
     status: {
         type: String, required: true, default : "Zarezerwowany"

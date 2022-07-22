@@ -46,9 +46,11 @@ code {
   box-shadow: none !important;
   border:none;
   margin-bottom: 10px !important;
+  margin-left: 10px;
   border-radius: 40px ;
   font-size: 20px; 
   padding: 5px 15px;
+  text-align: center;
 } 
 
 .row{
@@ -113,5 +115,5 @@ p{
   text-align: left !important;
 }
 .additional-opitons{
-
+ margin-bottom: 25px;
 }
