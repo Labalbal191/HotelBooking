@@ -3,6 +3,7 @@ import axios from 'axios'
 import Room from '../components/Room'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
+import Information from '../components/Information'
 import { DatePicker, Space } from 'antd'
 import 'antd/dist/antd.css'
 import moment from 'moment'
@@ -16,6 +17,8 @@ function Homescreen() {
     const [fromdate, setfromdate] = useState()
     const [todate, settodate] = useState()
     const [duplicaterooms, setduplicaterooms] = useState([])
+    const [people, setpeople] = useState('all')
+    const [price, setprice] = useState('all')
 
     useEffect(() => {
         try {
@@ -68,8 +71,79 @@ function Homescreen() {
         }
     }
 
-    function filterByPeople(e){
-        const temp = duplicaterooms.filter(room=>room)
+    function filterByPeople(a){
+        setpeople(a)
+        if(a=='all'){
+            setrooms(duplicaterooms)
+        }
+        else{
+            const tempPeople = duplicaterooms.filter(room=>room.people == a)
+            setrooms(tempPeople)
+        }
+    }
+
+   /* function filterByPeople2(a, rooms2){
+        setpeople(a)
+        if(a=='all'){
+            return rooms2
+        }
+        else{
+            const tempPeople = rooms2.filter(room=>room.people == a)
+            return tempPeople
+        }
+    }
+
+    function filterByPrice2(e, rooms2){
+        setprice(e)
+        if(e=='all'){
+            return rooms2
+        }
+        else if(e=='50'){
+            const tempPrice = rooms2.filter(room=>room.rentperday <= 50)
+            return tempPrice
+        }
+        else if(e=='100'){
+            const tempPrice = rooms2.filter(room=>room.rentperday >50 && room.rentperday <= 100)
+            return tempPrice
+        }
+        else if(e=='200'){
+            const tempPrice = rooms2.filter(room=>room.rentperday >100 && room.rentperday <= 200)
+            return tempPrice
+        }
+        else if(e=='300'){
+            const tempPrice = rooms2.filter(room=>room.rentperday >200)
+            return tempPrice
+        }
+    }
+    function filterByBoth(a, e){
+        setpeople(a)
+        setprice(e)
+        const peopleTemp = filterByPeople2(a, duplicaterooms)
+        const priceTemp = filterByPrice2(e, peopleTemp)
+        setrooms(priceTemp)
+    }
+*/
+    function filterByPrice(e){
+        setprice(e)
+        if(e=='all'){
+            setrooms(duplicaterooms)
+        }
+        else if(e=='50'){
+            const tempPrice = duplicaterooms.filter(room=>room.rentperday <= 50)
+            setrooms(tempPrice)
+        }
+        else if(e=='100'){
+            const tempPrice = duplicaterooms.filter(room=>room.rentperday >50 && room.rentperday <= 100)
+            setrooms(tempPrice)
+        }
+        else if(e=='200'){
+            const tempPrice = duplicaterooms.filter(room=>room.rentperday >100 && room.rentperday <= 200)
+            setrooms(tempPrice)
+        }
+        else if(e=='300'){
+            const tempPrice = duplicaterooms.filter(room=>room.rentperday >200)
+            setrooms(tempPrice)
+        }
     }
 
     return (
@@ -81,21 +155,21 @@ function Homescreen() {
                 </div>
                 
                 <div className='col-md-3'>
-                    <select className='form-control'>
-                        <option value="Wszystkie"> Wszystkie pokoje</option>
+                    <select className='form-control' value={price} onChange={(e)=>{filterByPrice(e.target.value)}}>
+                        <option value="all"> Wszystkie pokoje</option>
                         <option value="50"> 0-50 zł</option>
-                        <option value="100"> 100-150 zł</option>
-                        <option value="150"> 150-200 zł</option>
-                        <option value="200"> 200+ zł</option>
+                        <option value="100"> 50-100 zł</option>
+                        <option value="200"> 100-200 zł</option>
+                        <option value="300"> 200+ zł</option>
                     </select>
                 </div>
                 <div className='col-md-3'>
-                    <select className='form-control'>
-                        <option value="Wszystkie"> Wszystkie pokoje</option>
+                    <select className='form-control' value={people} onChange={(a)=>{filterByPeople(a.target.value)}}>
+                        <option value="all"> Wszystkie pokoje</option>
                         <option value="1"> 1 osobowe</option>
                         <option value="2"> 2 osobowe</option>
                         <option value="3"> 3 osobowe</option>
-                        <option value="4"> 4+ osobowe</option>
+                        <option value="4"> 4 osobowe</option>
                     </select>
                 </div>
 
@@ -104,13 +178,15 @@ function Homescreen() {
             <div className='row justify-content-center mt-3'>
                 {loading ?
                     (<Loader />)
-                    : rooms.length > 1 ?
+                    : rooms.length >= 1 ?
                         (rooms.map(room => {
                             return <div className='com-md-9 mt-2'>
                                 <Room room={room} fromdate={fromdate} todate={todate} />
                             </div>
                         }))
-                        : <Error />
+                        : <div className='col-md-4 mt-4'>
+                            <Information message = 'Niestety nie mamy pokoju spełniającego podane parametry'/>
+                        </div>
                 }
             </div>
         </div>

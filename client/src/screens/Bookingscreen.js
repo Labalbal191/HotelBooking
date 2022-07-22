@@ -17,8 +17,14 @@ function Bookingscreen({ match }) {
   const todate = moment(match.params.todate, 'DD-MM-YYYY')
   const totaldays = moment.duration(todate.diff(fromdate)).asDays() + 1
   const [totalamount, settotalamount] = useState()
+  const [spa, setspa] = useState('Nie')
+  const [barek, setbarek] = useState('Nie')
+  const [duplicateprice, setduplicateprice] = useState()
 
   useEffect(() => {
+    if(!localStorage.getItem('currentUser')){
+      window.location.reload='/login'
+    }
     try {
       setloading(true)
       async function gettingRoom() {
@@ -26,6 +32,7 @@ function Bookingscreen({ match }) {
         setroom(data)
         setloading(false)
         settotalamount(data.rentperday * totaldays)
+        setduplicateprice(data.rentperday * totaldays)
       }
       gettingRoom()
     }
@@ -52,7 +59,7 @@ function Bookingscreen({ match }) {
       const result = await axios.post('/api/bookings/bookroom', bookingDetails)
       setloading(false)
       Swal.fire('Sukces', 'Pokój zarezerwowany pomyślnie', 'success').then(result=>{
-        window.location.href='/bookings'
+        window.location.href='/home'
       })
     } catch (error) {
       setloading(false)
@@ -61,28 +68,69 @@ function Bookingscreen({ match }) {
     }
   }
 
+  function isBarek(a){
+    setbarek(a)
+    if(a=='Tak'){
+        const temp = totalamount + 25
+        settotalamount(temp)
+    }
+    else{
+      setspa(a)
+      settotalamount(duplicateprice)
+    }
+}
+
+function isSpa(a){
+  setspa(a)
+  if(a=='Tak'){
+      const temp = totalamount + 50
+      settotalamount(temp)
+  }
+  else{
+    setbarek(a)
+    settotalamount(duplicateprice)
+  }
+}
   return (
     <div className='m-5'>
       {loading ?
         (<Loader />)
         : room ?
           (
-            <div>
+            <div className='outer-div'>
+              <div className='inner-div'>
               <div className='row justify-content-center mt-6 bx_shadow'>
-                <div className='col-md-5'>
-                  <h1>{room.name}</h1>
-                  <img src={room.imageurls[0]} classname='fullsizeimg' />
-                </div>
-
-                <div className='col-md-5'>
+                <div>
                   <h1>Szczegóły rezerwacji</h1>
                   <hr></hr>
                   <b>
+                    <p>Pokój: {room.name}</p>
                     <p>Od: {match.params.fromdate}</p>
                     <p>Do: {match.params.todate}</p>
                     <p>Dni: {totaldays}</p>
                     <p>Cena za dzień: {room.rentperday} </p>
-                    <p>Suma: {totalamount}</p>
+                    <hr></hr>
+                    
+                    <p>Usługi dodatkowe:</p>
+                    <div className='col-md-3'>
+                      <div className='additional-opitons'>
+                      Barek w pokoju: 
+                      <select className='form-control' value={barek} onChange={(a)=>{isBarek(a.target.value)}}>
+                        <option value="Nie"> Nie</option>
+                        <option value="Tak"> Tak (25zł)</option>
+                      </select>
+                    </div>
+                   
+
+                      Dostęp do SPA:
+                      <select className='form-control' value={spa} onChange={(a)=>{isSpa(a.target.value)}}>
+                        <option value="Nie"> Nie</option>
+                        <option value="Tak"> Tak (50zł)</option>
+                      </select>
+                    </div>
+            
+                    <hr></hr>
+                    <p> <center>Suma: {totalamount} zł</center> </p>
                   </b>
                   <div>
 
@@ -96,6 +144,7 @@ function Bookingscreen({ match }) {
                     </StripeCheckout>
                   </div>
                 </div>
+              </div>
               </div>
             </div>)
           : (<Error />)

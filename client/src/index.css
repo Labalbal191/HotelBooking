@@ -74,10 +74,15 @@ input, select, .ant-picker{
 
 .fullsizeimg{
   height: 600px;
-  width: 100%;
+  width: 10%;
   border-radius: 30px !important;
 }
-
+p{
+  font-size: 20px !important;
+}
+.p_home{
+  font-size: 20px !important;
+}
 .bx_shadow{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   margin-top: 30px;
@@ -91,4 +96,22 @@ input, select, .ant-picker{
 
 .ant-picker-input input{
   border: none !important;
+}
+.col-md-4{
+  text-align: center;
+}
+
+.outer-div {
+  width: 100%;
+  text-align: center;
+}
+.inner-div {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 3px;
+  width: 50%;
+  text-align: left !important;
+}
+.additional-opitons{
+
 }

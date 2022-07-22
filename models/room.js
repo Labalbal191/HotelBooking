@@ -5,7 +5,7 @@ const roomSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    maxcount:{
+    people:{
         type: Number,
         require: true
     },

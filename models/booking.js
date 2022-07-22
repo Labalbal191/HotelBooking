@@ -27,7 +27,7 @@ const bookingSchema = mongoose.Schema({
         type: String, required: true, default : "123"
     },
     status: {
-        type: String, required: true, default : "booked"
+        type: String, required: true, default : "Zarezerwowany"
     }
 },{
     timestamps: true,

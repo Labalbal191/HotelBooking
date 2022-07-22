@@ -20,8 +20,8 @@ function Navbar() {
                     {user ? (
                             <>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/bookings">
-                                        Moje rezerwacje
+                                    <a class="nav-link" href="/profile">
+                                        Mój profil
                                     </a>
                                 </li>
                                 <li class="nav-item">
