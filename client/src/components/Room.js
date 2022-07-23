@@ -17,7 +17,7 @@ function Room({ room, fromdate, todate }) {
         <b>
           <p className='p_home'>Liczba osób: {room.people}</p>
           <p className='p_home'>Cena: {room.rentperday} zł</p>
-          <p className='p_home'>Type: {room.type}
+          {room.description}
           <div style={{ float: 'right' }}>
           <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
           {(fromdate && todate && localStorage.getItem('currentUser')) &&
@@ -26,7 +26,6 @@ function Room({ room, fromdate, todate }) {
             </Link>)
           }
         </div>
-        </p>
         </b>
       </div>
 

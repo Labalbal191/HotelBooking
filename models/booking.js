@@ -30,7 +30,7 @@ const bookingSchema = mongoose.Schema({
         type: String, required: true, default: "Nie"
     },
     status: {
-        type: String, required: true, default : "Zarezerwowany"
+        type: String, required: true, default : "Aktywna"
     }
 },{
     timestamps: true,

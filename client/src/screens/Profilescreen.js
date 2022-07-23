@@ -96,7 +96,7 @@ export function MyBookings() {
                         <p><b>Barek w pokoju: </b> {booking.barek}</p>
                         <p><b>Dostęp do SPA: </b> {booking.spa}</p>
                         <p><b>Kwota:</b> {booking.totalamount} zł</p>
-                        <p><b>Status:</b> {booking.status == 'Zarezerwowany' ? ( <Tag color="lime">Zarezerwowany</Tag>): (<Tag color="red">Rezerwacja anulowana</Tag>)} 
+                        <p><b>Status:</b> {booking.status == 'Aktywna' ? ( <Tag color="lime">Aktywna</Tag>): (<Tag color="red">Anulowana</Tag>)} 
                         {booking.status !== 'Anulowana' &&(
                             <button className='room_btn btn-primary' onClick={()=>{cancelBooking(booking._id, booking.roomid)}} style={{ float: 'right' }} > Anuluj</button>
                         )}

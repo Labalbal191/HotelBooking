@@ -45,7 +45,7 @@ router.post("/bookroom", async (req, res) => {
                     totaldays,
                     barek,
                     spa,
-                    status: 'Zarezerwowany'
+                    status: 'Aktywna'
                 })
                 const booking = await newbooking.save()
 
@@ -95,5 +95,12 @@ router.post('/cancelbooking', async (req, res) => {
         return res.status(400).json({ message: error });
     }
 })
-
+router.get('/getallbookings', async (req, res) => {
+    try {
+        const bookings3 = await Booking.find({})
+        res.send(bookings3)
+    } catch (error) {
+        return res.status(400).json({ message: error });
+    }
+})
 module.exports = router

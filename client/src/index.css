@@ -108,6 +108,11 @@ p{
   width: 100%;
   text-align: center;
 }
+.outer-div2 {
+  width: 56%;
+  text-align: right;
+  margin-left: 200px;
+}
 .inner-div {
   display: inline-block;
   margin: 0 auto;
@@ -115,6 +120,17 @@ p{
   width: 50%;
   text-align: left !important;
 }
+.inner-div2 {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 3px;
+  width: 50%;
+  text-align: center !important;
+}
 .additional-opitons{
  margin-bottom: 25px;
+}
+td, tr {
+  text-align: center !important;
+  vertical-align: middle;
 }
