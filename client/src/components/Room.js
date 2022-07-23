@@ -20,7 +20,7 @@ function Room({ room, fromdate, todate }) {
           <p className='p_home'>Type: {room.type}
           <div style={{ float: 'right' }}>
           <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
-          {(fromdate && todate) &&
+          {(fromdate && todate && localStorage.getItem('currentUser')) &&
             (<Link to={`/book/${room._id}/${fromdate}/${todate}`}>
               <button className='room_btn btn-primary' > Zarezerwuj</button>
             </Link>)

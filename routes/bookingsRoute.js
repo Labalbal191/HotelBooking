@@ -45,7 +45,6 @@ router.post("/bookroom", async (req, res) => {
                     totaldays,
                     barek,
                     spa,
-                    transactionId: '1234',
                     status: 'Zarezerwowany'
                 })
                 const booking = await newbooking.save()

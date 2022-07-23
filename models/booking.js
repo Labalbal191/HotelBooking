@@ -29,9 +29,6 @@ const bookingSchema = mongoose.Schema({
     spa : {
         type: String, required: true, default: "Nie"
     },
-    transactionid : {
-       type: String, required: true, default : "123"
-    },
     status: {
         type: String, required: true, default : "Zarezerwowany"
     }
