@@ -3,6 +3,15 @@ import React from 'react'
 function Navbar() {
 
     const user = JSON.parse(localStorage.getItem('currentUser'))
+    
+    function isAdmin(){
+        const user2 = (JSON.parse(localStorage.getItem('currentUser'))).data
+        if(user2.isAdmin)
+            return true
+        else
+            return false     
+    }
+    
     function logout(){
         localStorage.removeItem('currentUser')
         window.location.href='/login'
@@ -23,7 +32,20 @@ function Navbar() {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                    {user ? (
+                    {user ? isAdmin()? (
+                            <>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin">
+                                        Panel Administratora
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="#" onClick={(logout)}>
+                                            Wyloguj się
+                                        </a>
+                                </li>
+                                    </>
+                            ) : (
                             <>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/profile">

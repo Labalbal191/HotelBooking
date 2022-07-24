@@ -5,6 +5,13 @@ import Error from '../components/Error'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import StripeCheckout from 'react-stripe-checkout'
+import AOS from 'aos'
+import 'aos/dist/aos.css';
+
+AOS.init({
+  duration:2000
+})
+
 
 function Bookingscreen({ match }) {
 
@@ -95,7 +102,7 @@ function isSpa(a){
 }
 
   return (
-    <div className='m-5'>
+    <div className='m-5' data-aos="zoom-in-up">
       {loading ?
         (<Loader />)
         : room ?

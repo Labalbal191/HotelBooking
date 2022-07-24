@@ -53,6 +53,23 @@ code {
   text-align: center;
 } 
 
+.room_btn2{
+  background-color: #0f1763 !important;
+  color: white !important;
+  box-shadow: none !important;
+  border:none;
+  margin-bottom: 0px !important;
+  margin-left: 10px;
+  border-radius: 40px ;
+  font-size: 15px; 
+  padding: 5px 15px;
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 23%;
+  right: 25%;
+} 
+
 .row{
   margin-left: auto !important;
   border-radius: 50px ;  
@@ -63,7 +80,16 @@ h1{
   font-size: 30px ;
   font-weight: bold !important;
 }
-
+.new-room-input{
+  text-align: center;
+  margin-bottom: 15px;
+  border: 2px solid #0f1763 !important;
+  border-radius: 3px;
+  width: 100%;
+  height: 20%;
+  font-weight: bold;
+  margin-bottom: 5px !important;
+}
 input, select, .ant-picker{
   text-align: center;
   margin-bottom: 15px;

@@ -4,16 +4,18 @@ import axios from 'axios'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import { Divider, Tag } from 'antd';
+import Swal from 'sweetalert2'
+
 
 const { TabPane } = Tabs;
 
 function Adminscreen() {
 
-    useEffect(() =>{
-        if(!(JSON.parse(localStorage.getItem('currentUser')).data).isAdmin){
-            window.location='/home'
+    useEffect(() => {
+        if (!(JSON.parse(localStorage.getItem('currentUser')).data).isAdmin) {
+            window.location = '/home'
         }
-    },[])
+    }, [])
 
     return (
         <div>
@@ -32,7 +34,7 @@ function Adminscreen() {
                     <div className='row justify-content-center'>
                         <div className="col-md-10">
                             <div className='bx_shadow'>
-                                <Rooms/>
+                                <Rooms />
                             </div>
                         </div>
                     </div>
@@ -41,7 +43,7 @@ function Adminscreen() {
                     <div className='row justify-content-center'>
                         <div className="col-md-10">
                             <div className='bx_shadow'>
-                                Dodaj pokój
+                                <Addroom />
                             </div>
                         </div>
                     </div>
@@ -50,7 +52,7 @@ function Adminscreen() {
                     <div className='row justify-content-center'>
                         <div className="col-md-10">
                             <div className='bx_shadow'>
-                                <Users/>
+                                <Users />
                             </div>
                         </div>
                     </div>
@@ -59,7 +61,7 @@ function Adminscreen() {
                     <div className='row justify-content-center'>
                         <div className="col-md-10">
                             <div className='bx_shadow'>
-                                Harmonogram sprzątania
+                                <Cleaning/>
                             </div>
                         </div>
                     </div>
@@ -90,7 +92,7 @@ export function Bookings() {
             setloading(false)
             seterror(true)
         }
-}, [])
+    }, [])
 
     return (
         <div className="row">
@@ -130,8 +132,8 @@ export function Bookings() {
     )
 }
 
-export function Rooms(){
-    const[rooms, setrooms] = useState([])
+export function Rooms() {
+    const [rooms, setrooms] = useState([])
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
 
@@ -150,35 +152,35 @@ export function Rooms(){
             seterror(true)
         }
     }, [])
-return (
-    <div className="row">
-        {loading && (<Loader />)}
-        <table className='table table-bordered'>
-            <thead class="bx_shadow">
-                <tr>
-                    <th> ID Pokoju</th>
-                    <th> Nazwa</th>
-                    <th> Liczba osób</th>
-                    <th> Cena</th>
-                </tr>
-            </thead>
-            <tbody>
-                {rooms.length && (rooms.map(room => {
-                    return <tr>
-                        <td>{room._id} </td>
-                        <td>{room.name} </td>
-                        <td>{room.people} </td>
-                        <td>{room.rentperday} zł </td>
+    return (
+        <div className="row">
+            {loading && (<Loader />)}
+            <table className='table table-bordered'>
+                <thead class="bx_shadow">
+                    <tr>
+                        <th> ID Pokoju</th>
+                        <th> Nazwa</th>
+                        <th> Liczba osób</th>
+                        <th> Cena</th>
                     </tr>
-                }))}
-            </tbody>
-        </table>
-    </div>
-)
+                </thead>
+                <tbody>
+                    {rooms.length && (rooms.map(room => {
+                        return <tr>
+                            <td>{room._id} </td>
+                            <td>{room.name} </td>
+                            <td>{room.people} </td>
+                            <td>{room.rentperday} zł </td>
+                        </tr>
+                    }))}
+                </tbody>
+            </table>
+        </div>
+    )
 }
 
-export function Users(){
-    const[users, setusers] = useState([])
+export function Users() {
+    const [users, setusers] = useState([])
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
 
@@ -198,77 +200,147 @@ export function Users(){
         }
     }, [])
 
-return (
-    <div className="row">
-        {loading && (<Loader />)}
-        <table className='table table-bordered'>
-            <thead class="bx_shadow">
-                <tr>
-                    <th> ID</th>
-                    <th> Nazwa</th>
-                    <th> Email</th>
-                    <th> Typ użytkownika</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users.length && (users.map(user => {
-                    return <tr>
-                        <td>{user._id} </td>
-                        <td>{user.name} </td>
-                        <td>{user.email} </td>
-                        <td> {user.isAdmin == true ? (<Tag color="gold">Administrator</Tag>) : (<Tag color="#aeb1b5">Zwykły użytkownik</Tag>)} </td>
-
+    return (
+        <div className="row">
+            {loading && (<Loader />)}
+            <table className='table table-bordered'>
+                <thead class="bx_shadow">
+                    <tr>
+                        <th> ID</th>
+                        <th> Nazwa</th>
+                        <th> Email</th>
+                        <th> Typ użytkownika</th>
                     </tr>
-                }))}
-            </tbody>
-        </table>
-    </div>
-)
+                </thead>
+                <tbody>
+                    {users.length && (users.map(user => {
+                        return <tr>
+                            <td>{user._id} </td>
+                            <td>{user.name} </td>
+                            <td>{user.email} </td>
+                            <td> {user.isAdmin == true ? (<Tag color="gold">Administrator</Tag>) : (<Tag color="#aeb1b5">Zwykły użytkownik</Tag>)} </td>
+
+                        </tr>
+                    }))}
+                </tbody>
+            </table>
+        </div>
+    )
 }
 
-export function Cleaning(){
-    const[roomsToClean, setroomsToClean] = useState([])
+export function Cleaning() {
+    const [bookings, setbookings] = useState([])
+    const [roomsToClean, setroomsToClean] = useState([])
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
 
     useEffect(() => {
         setloading(true)
         try {
-            async function gettingRoomsToClean() {
-                const data = (await axios.get('/api/rooms/getroomstoclean')).data
-                setroomsToClean(data)
+            async function gettingBookings() {
+                const data = (await axios.get('/api/bookings/getallbookings')).data
+                console.log(data)
+                setbookings(data)
                 setloading(false)
             }
-            gettingRoomsToClean()
+            gettingBookings()
         }
         catch (error) {
             setloading(false)
             seterror(true)
         }
     }, [])
-return (
-    <div className="row">
-        {loading && (<Loader />)}
-        <table className='table table-bordered'>
-            <thead class="bx_shadow">
-                <tr>
-                    <th> ID Pokoju</th>
-                    <th> Nazwa</th>
-                    <th> Liczba osób</th>
-                    <th> Cena</th>
-                </tr>
-            </thead>
-            <tbody>
-                {roomsToClean.length && (roomsToClean.map(room => {
-                    return <tr>
-                        <td>{room._id} </td>
-                        <td>{room.name} </td>
-                        <td>{room.people} </td>
-                        <td>{room.rentperday} zł </td>
+
+    return (
+        <div className="row">
+            {loading && (<Loader />)}
+            <table className='table table-bordered'>
+                <thead class="bx_shadow">
+                    <tr>
+                        <th> Obecnie zajęte pokoje</th>
+                        <th> Status</th>
                     </tr>
-                }))}
-            </tbody>
-        </table>
-    </div>
-)
+                </thead>
+                <tbody>
+                    {bookings.length && (bookings.map(booking => {
+                        return <tr>
+                            <td> {booking.room}</td>
+                            <td> {booking.status == 'Aktywna' ? (<Tag color="lime">Aktywna</Tag>) : (<Tag color="red">Anulowana</Tag>)} </td>
+
+                        </tr>
+                    }))}
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+function Addroom() {
+    const [loading, setloading] = useState(false)
+    const [error, seterror] = useState()
+
+    const[name, setname] = useState('')
+    const[people, setpeople] = useState()
+    const[rentperday, setrentperday] = useState()
+    const[description, setdescription] = useState()
+    const[image1, setimage1] = useState()
+    const[image2, setimage2] = useState()
+    const[image3, setimage3] = useState()
+    
+    async function addRoom(){
+        const newRoom ={
+            name,
+            people,
+            rentperday,
+            description,
+            imageurls: [image1, image2, image3]
+        }
+        try{
+            setloading(true)
+            const result = await (axios.post('/api/rooms/addroom', newRoom)).data
+            setloading(false)
+            Swal.fire('Sukces!', 'Pokój został dodany pomyślnie', 'success').then(result=>{
+                window.location.href="/home"
+            })
+        }catch(error){
+            setloading(false)
+            seterror(true)
+            console.log(error)
+            Swal.fire('Ups,', 'coś poszło nie tak', 'error')
+        }
+    }
+
+    return (
+        <div className='row justify-content-center'>
+            {loading && <Loader/>}
+            <div className='col-md-5'>
+                <input type='text' className='new-room-input' placeholder='Nazwa pokoju'
+                value={name} onChange={(e)=>{setname(e.target.value)}}/>
+                    
+                <input type='number' className='new-room-input' placeholder='Liczba osób'
+                value={people} onChange={(e)=>{setpeople(e.target.value)}}/>
+
+                <input type='number' className='new-room-input' placeholder='Cena za dzień'
+                value={rentperday} onChange={(e)=>{setrentperday(e.target.value)}}/>
+
+                <input type='text' className='new-room-input' placeholder='Opis'
+                value={description} onChange={(e)=>{setdescription(e.target.value)}}/>
+            </div>
+
+            <div className='col-md-5'>
+                <input type='text' className='new-room-input' placeholder='Zdjęcie 1'
+                value={image1} onChange={(e)=>{setimage1(e.target.value)}}/>
+
+                <input type='text' className='new-room-input' placeholder='Zdjęcie 2'
+                value={image2} onChange={(e)=>{setimage2(e.target.value)}}/>
+
+                <input type='text' className='new-room-input' placeholder='Zdjęcie 3'
+                value={image3} onChange={(e)=>{setimage3(e.target.value)}}/>
+
+                <div className='text-centre'>
+                <button className='room_btn2 btn-primary m-3' onClick={addRoom}> Dodaj nowy pokój</button>
+                </div>
+            </div>
+        </div>
+    )
 }

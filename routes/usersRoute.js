@@ -39,7 +39,6 @@ router.post("/login", async(req, res) => {
 }); 
 
 router.get("/getallusers", async(req, res) =>{
-
     try{
         const users = await User.find()
         res.send(users)
@@ -48,5 +47,17 @@ router.get("/getallusers", async(req, res) =>{
         return res.status(400).json({message: error});
     }
 });
+
+router.post('/checkexistingusers', async (req, res) => {
+    const email =  req.body.email
+    try {
+        const user = await User.find({email: email})
+        res.send(user)
+    } catch (error) {
+        return res.status(400).json({ message: error });
+    }
+})
+
+
 
 module.exports =router

@@ -4,6 +4,7 @@ import Loader from '../components/Loader'
 import Error from '../components/Error'
 import Success from '../components/Success'
 
+
 function Registerscreen() {
 
     const[name, setname] = useState('')
@@ -15,6 +16,7 @@ function Registerscreen() {
     const [error, seterror] = useState()
     const [errorPass, seterrorPass] = useState(false)
     const [errorData, seterrorData] = useState(false)
+   // const [errorSameUser, seterrorSameUser] = useState(false)
     const [success, setsuccess] = useState()
     
     function isEmpty(str) {
@@ -35,15 +37,17 @@ function Registerscreen() {
                 passconf
             }
             try{
-                setloading(true)
-                const result = await axios.post('/api/users/register', user).data
-                setloading(false)
-                setsuccess(true)
-                
-                setname('')
-                setemail('')
-                setpassword('')
-                setpassconf('')
+                    setloading(true)
+                    const result = await axios.post('/api/users/register', user).data
+                    setloading(false)
+                    setsuccess(true)
+                    
+                    setname('')
+                    setemail('')
+                    setpassword('')
+                    setpassconf('')
+
+
             }catch(error){
                 console.log(error)
                 setloading(false)
@@ -64,6 +68,7 @@ function Registerscreen() {
                 
                 {errorPass&&<Error message ='Hasła muszą być jednakowe'/>}   
                 {errorData&& <Error message ='Nie podano wszystkich danych'/>}  
+
                 {error &&<Error message ='Ups, coś poszło nie tak'/>}  
                 {success && (<Success message ='Zarejestrowano pomyślnie'/>)}
                 
