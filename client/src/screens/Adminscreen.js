@@ -5,7 +5,9 @@ import Loader from '../components/Loader'
 import Error from '../components/Error'
 import { Divider, Tag } from 'antd';
 import Swal from 'sweetalert2'
-
+import { DatePicker, Space } from 'antd'
+import moment from 'moment'
+const { RangePicker } = DatePicker
 
 const { TabPane } = Tabs;
 
@@ -231,19 +233,68 @@ export function Users() {
 export function Cleaning() {
     const [bookings, setbookings] = useState([])
     const [roomsToClean, setroomsToClean] = useState([])
+    const [duplicatebookings, setduplicatebookings] = useState([])
+    const [cleanedRooms, setcleanedRooms] = useState([])
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
+    const today = moment().format('DD-MM-YYYY')
+    var testCleaned = []
 
+    function filterByDate() {
+       
+        var temprooms = []
+        var cleanedRoomstemp = []
+
+        var today = new Date();
+        var day = String(today.getDate()).padStart(2, '0');
+        var month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+
+        var dayInt = parseInt(day)
+        var monthInt = parseInt(month)
+
+        for (var booking of bookings) {
+           var fromDateInString = booking.fromdate.toString()
+           var toDateInString = booking.todate.toString()
+  
+           var fromDateDaysAsInt = parseInt(fromDateInString.substr(0,2))
+           var fromDateMonthsAsInt = parseInt(fromDateInString.substr(3,2))
+
+           var toDateDaysAsInt = parseInt(toDateInString.substr(0,2))
+           var toDateMonthsAsInt = parseInt(toDateInString.substr(3,2))
+    
+            if (monthInt >= fromDateMonthsAsInt && monthInt <= toDateMonthsAsInt){
+                if(dayInt >=fromDateDaysAsInt && dayInt <=toDateDaysAsInt){
+                    if(!cleanedRooms.includes(booking)){
+                        temprooms.push(booking)
+                    }       
+                }
+            }
+            setroomsToClean(temprooms)
+            setduplicatebookings(temprooms)
+        }
+    }
+function markAsCleaned(){
+    var elem = document.getElementById("myButton1");
+    if (elem.value=="Posprzątany"){
+        elem.value = "Nieposprzątany";
+        elem.style.backgroundColor = '#f7747d';
+    } 
+    else{
+        elem.value = "Posprzątany";
+        elem.style.backgroundColor = '#c4f0a3';
+    } 
+
+}
     useEffect(() => {
         setloading(true)
         try {
             async function gettingBookings() {
                 const data = (await axios.get('/api/bookings/getallbookings')).data
-                console.log(data)
                 setbookings(data)
                 setloading(false)
             }
             gettingBookings()
+            filterByDate()
         }
         catch (error) {
             setloading(false)
@@ -252,25 +303,31 @@ export function Cleaning() {
     }, [])
 
     return (
-        <div className="row">
+        <div className="row justify-content-center">
             {loading && (<Loader />)}
-            <table className='table table-bordered'>
-                <thead class="bx_shadow">
-                    <tr>
-                        <th> Obecnie zajęte pokoje</th>
-                        <th> Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bookings.length && (bookings.map(booking => {
-                        return <tr>
-                            <td> {booking.room}</td>
-                            <td> {booking.status == 'Aktywna' ? (<Tag color="lime">Aktywna</Tag>) : (<Tag color="red">Anulowana</Tag>)} </td>
+            
+            <button className='room_btn btn-primary col-md-2' onClick={filterByDate} > Odśwież liste</button>
+            {roomsToClean.length >= 1?         
+            (            <table className='table'>
+            <thead class="bx_shadow">
+                <tr>
+                    <th> Obecnie zajęte pokoje</th>
+                    <th> Status</th>
 
-                        </tr>
-                    }))}
-                </tbody>
-            </table>
+                </tr>
+            </thead>
+            <tbody>
+                {roomsToClean.length && (roomsToClean.map(booking => {
+                    return <tr>
+                        <td> {booking.room}</td>
+                        <input onClick={markAsCleaned} type="button" value="Nieposprzątany" id="myButton1"></input>
+                    </tr>
+                }))}
+            </tbody>
+        </table>) :
+        <h1>Obecnie nie ma pokoi do sprzątania</h1>
+        }
+
         </div>
     )
 }

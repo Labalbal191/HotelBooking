@@ -31,6 +31,16 @@ code {
   margin-left: auto !important;
  
 }
+#myButton1{
+  background-color:#f7747d;
+
+
+  border:none;
+  border-radius: 40px ;
+  font-size: 12px; 
+  padding: 5px 15px;
+  text-align: center
+}
 
 .smallimg{
   margin-top: 10px;
@@ -53,6 +63,16 @@ code {
   text-align: center;
 } 
 
+.cleaning_btn{
+  background-color: #0f1763 !important;
+  color: white !important;
+  box-shadow: none !important;
+  border:none;
+  border-radius: 40px ;
+  font-size: 12px; 
+  padding: 5px 15px;
+  text-align: center;
+} 
 .room_btn2{
   background-color: #0f1763 !important;
   color: white !important;
