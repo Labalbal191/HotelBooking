@@ -95,6 +95,8 @@ router.post('/cancelbooking', async (req, res) => {
         return res.status(400).json({ message: error });
     }
 })
+
+
 router.get('/getallbookings', async (req, res) => {
     try {
         const bookings3 = await Booking.find({})

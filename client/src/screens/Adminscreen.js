@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
+
 import { Tabs } from 'antd';
 import axios from 'axios'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import { Divider, Tag } from 'antd';
 import Swal from 'sweetalert2'
-import { DatePicker, Space } from 'antd'
 import moment from 'moment'
-const { RangePicker } = DatePicker
 
 const { TabPane } = Tabs;
 
@@ -59,7 +58,25 @@ function Adminscreen() {
                         </div>
                     </div>
                 </TabPane>
-                <TabPane tab="Harmonogram sprzątania" key="5">
+                <TabPane tab="Zablokuj użytkownika" key="5">
+                    <div className='row justify-content-center'>
+                        <div className="col-md-10">
+                            <div className='bx_shadow'>
+                                <BlockingUserUI/>
+                            </div>
+                        </div>
+                    </div>
+                </TabPane>
+                <TabPane tab="Odblokuj użytkownika" key="6">
+                    <div className='row justify-content-center'>
+                        <div className="col-md-10">
+                            <div className='bx_shadow'>
+                                <UnblockUserUI/>
+                            </div>
+                        </div>
+                    </div>
+                </TabPane>
+                <TabPane tab="Harmonogram sprzątania" key="7">
                     <div className='row justify-content-center'>
                         <div className="col-md-10">
                             <div className='bx_shadow'>
@@ -181,6 +198,85 @@ export function Rooms() {
     )
 }
 
+
+export function BlockingUserUI(){
+    const [loading, setloading] = useState(true)
+    const [error, seterror] = useState()
+    const [user, setuser] = useState()
+    
+    function BlockUser(){  
+        console.log("function is running") 
+        const userid= document.getElementById('uservalue').value
+        
+        console.log(userid)   
+        try {
+            setloading(true)
+            async function gettingUserByID(){
+                console.log('proba podjeta')
+                const result = await (axios.post('/api/users/blockuser', {userid})).data
+                setuser(result)
+                setloading(false)
+            }
+            gettingUserByID() 
+            Swal.fire('Sukces,', 'Użytkownik został zablokowany', 'success')
+        } catch (error) {
+            Swal.fire('Ups,', 'coś poszło nie tak', 'error')
+            setloading(false)
+            seterror(error)
+        }
+    }
+
+    return (
+        <div className='justify-content-center'>
+            <div className='justify-content-center'>
+                <input type='text' className='input2' placeholder='ID użytkownika do zablokowania'
+                id='uservalue'/>
+                <button className='cleaning_btn' onClick={()=>BlockUser()}> Zablokuj użytkownika</button>
+            </div>
+            
+        </div>
+)
+}
+
+export function UnblockUserUI(){
+    const [loading, setloading] = useState(true)
+    const [error, seterror] = useState()
+    const [user, setuser] = useState()
+    
+    function UnblockUser(){  
+        console.log("function is running") 
+        const userid= document.getElementById('uservalue').value
+        
+        console.log(userid)   
+        try {
+            setloading(true)
+            async function gettingUserByID(){
+                console.log('proba podjeta')
+                const result = await (axios.post('/api/users/unblockuser', {userid})).data
+                setuser(result)
+                setloading(false)
+            }
+            gettingUserByID()
+            Swal.fire('Sukces,', 'Użytkownik został odblokowany', 'success') 
+        } catch (error) {
+            Swal.fire('Ups,', 'coś poszło nie tak', 'error')
+            setloading(false)
+            seterror(error)
+        }
+    }
+
+    return (
+        <div className='justify-content-center'>
+            <div className='justify-content-center'>
+                <input type='text' className='input2' placeholder='ID użytkownika do zablokowania'
+                id='uservalue'/>
+                <button className='cleaning_btn' onClick={()=>UnblockUser()}> Odblokuj użytkownika</button>
+            </div>
+            
+        </div>
+)
+}
+
 export function Users() {
     const [users, setusers] = useState([])
     const [loading, setloading] = useState(false)
@@ -212,6 +308,7 @@ export function Users() {
                         <th> Nazwa</th>
                         <th> Email</th>
                         <th> Typ użytkownika</th>
+                        <th> Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -221,7 +318,7 @@ export function Users() {
                             <td>{user.name} </td>
                             <td>{user.email} </td>
                             <td> {user.isAdmin == true ? (<Tag color="gold">Administrator</Tag>) : (<Tag color="#aeb1b5">Zwykły użytkownik</Tag>)} </td>
-
+                            <td>{user.isAdmin? (<Tag color="gold">Administrator</Tag>) : user.isBlocked ? (<Tag color="red">Zablokowany</Tag>) : (<Tag color="green">Odblokowany</Tag>)} </td>
                         </tr>
                     }))}
                 </tbody>

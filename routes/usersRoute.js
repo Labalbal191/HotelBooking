@@ -48,6 +48,42 @@ router.get("/getallusers", async(req, res) =>{
     }
 });
 
+router.post('/blockuser', async (req, res) => {
+    
+    const userid =  req.body.userid
+    try {
+      const userToBeBlocekd = await User.findOne({_id: userid})
+      if(!userToBeBlocekd){
+        res.send("Nie ma takiego użytkownika")
+      }
+      else{
+        userToBeBlocekd.isBlocked = true 
+        await userToBeBlocekd.save()
+        res.send("Użytkownik zablokowany")
+      }
+    } catch (error) {
+        return res.status(400).json({ message: error });
+    }
+})
+
+router.post('/unblockuser', async (req, res) => {
+    
+    const userid =  req.body.userid
+    try {
+      const userToBeBlocekd = await User.findOne({_id: userid})
+      if(!userToBeBlocekd){
+        res.send("Nie ma takiego użytkownika")
+      }
+      else{
+        userToBeBlocekd.isBlocked = false 
+        await userToBeBlocekd.save()
+        res.send("Użytkownik odblokowany")
+      }
+    } catch (error) {
+        return res.status(400).json({ message: error });
+    }
+})
+
 router.post('/checkexistingusers', async (req, res) => {
     const email =  req.body.email
     try {
