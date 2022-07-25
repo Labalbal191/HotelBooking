@@ -7,6 +7,8 @@ import Error from '../components/Error'
 import { Divider, Tag } from 'antd';
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import ColumnGroup from 'antd/lib/table/ColumnGroup';
+
 
 const { TabPane } = Tabs;
 
@@ -78,7 +80,7 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Harmonogram sprzątania" key="7">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-5">
                             <div className='bx_shadow'>
                                 <Cleaning/>
                             </div>
@@ -205,7 +207,6 @@ export function BlockingUserUI(){
     const [user, setuser] = useState()
     
     function BlockUser(){  
-        console.log("function is running") 
         const userid= document.getElementById('uservalue').value
         
         console.log(userid)   
@@ -336,6 +337,7 @@ export function Cleaning() {
     const [error, seterror] = useState()
     const today = moment().format('DD-MM-YYYY')
     var testCleaned = []
+    var n = 0
 
     function filterByDate() {
        
@@ -362,16 +364,26 @@ export function Cleaning() {
             if (monthInt >= fromDateMonthsAsInt && monthInt <= toDateMonthsAsInt){
                 if(dayInt >=fromDateDaysAsInt && dayInt <=toDateDaysAsInt){
                     if(!cleanedRooms.includes(booking)){
-                        temprooms.push(booking)
+                        temprooms.push(booking.room)
+                        cleanedRooms.push(booking.room)
                     }       
                 }
             }
-            setroomsToClean(temprooms)
-            setduplicatebookings(temprooms)
         }
+        setroomsToClean(temprooms)
+        setduplicatebookings(temprooms)
+        console.log(cleanedRooms)
     }
-function markAsCleaned(){
-    var elem = document.getElementById("myButton1");
+    function markAsCleaned(id){
+        function getelement(){
+            var element = document.getElementById(id);
+            return element
+        }
+        window.onload =getelement()
+    var elem = getelement()
+
+    if(elem == null) console.log("elem is null")
+    else console.log("elem nie jest null")
     if (elem.value=="Posprzątany"){
         elem.value = "Nieposprzątany";
         elem.style.backgroundColor = '#f7747d';
@@ -398,7 +410,31 @@ function markAsCleaned(){
             seterror(true)
         }
     }, [])
+    return (
+        <div className='row justify-content-center' >
+            {loading && (<Loader/>)}
+            <button className='room_btn btn-primary col-md-2' onClick={filterByDate} > Odśwież liste</button>
+            {roomsToClean.length >= 1?  
+            (<div className='row justify-content-center'>
+                <div className= "col-md-4">
 
+                    {roomsToClean.length && (roomsToClean.map(room =>{
+                        return<div className='bx_shadow'>
+                            <h1>{room}</h1>
+                            <input onClick={(n)=>markAsCleaned(n)} type="button" value="Nieposprzątany" id={room}></input>
+                            {}
+                            {n++}
+                        </div>
+
+                        
+                    }))}
+                </div>
+            </div>)
+            :
+            <h1>Obecnie nie ma pokoi do sprzątania</h1>}
+        </div>
+      )
+/*
     return (
         <div className="row justify-content-center">
             {loading && (<Loader />)}
@@ -426,7 +462,7 @@ function markAsCleaned(){
         }
 
         </div>
-    )
+    )*/
 }
 
 function Addroom() {

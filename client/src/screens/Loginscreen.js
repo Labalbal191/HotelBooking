@@ -10,6 +10,7 @@ function Loginscreen() {
 
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState()
+    const [banned, setbanned] = useState(false)
 
     async function Login(){
             const user={
@@ -18,10 +19,22 @@ function Loginscreen() {
             }
             try{
               setloading(true)
-              const result = await axios.post('/api/users/login', user)
-              setloading(false)
-              localStorage.setItem('currentUser', JSON.stringify(result))
-              window.location.href='/home'
+
+              const test = await axios.post('/api/users/checkifuserblocked', user)
+
+              if(test.data=="Zablokowany"){
+                seterror(false)
+                setloading(false)
+                setbanned(true)
+              }
+              else{ 
+                seterror(false)
+                const result = await axios.post('/api/users/login', user)
+                setloading(false)
+    
+                localStorage.setItem('currentUser', JSON.stringify(result))
+                window.location.href='/home'
+              }
             }
             catch(error){
               setloading(false)
@@ -36,6 +49,7 @@ function Loginscreen() {
        <div className ="row justify-content-center mt-5">
             <div className='col-md-2 mt-5'>
               {error && (<Error message = 'Nieprawidłowy login lub hasło'/>)}
+              {banned && (<Error message = 'Użytkownik został zablokowany'/>)}
                 <div>
                     <h1>Zaloguj</h1>
                     <input type="text" className='form-control' placeholder='Email'

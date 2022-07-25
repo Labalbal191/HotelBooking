@@ -21,13 +21,13 @@ router.post("/login", async(req, res) => {
     try{
         const user = await User.findOne({email: email, password: password})
         if(user){
-            const temp = {
-                name: user.name, 
-                email: user.email,
-                isAdmin: user.isAdmin,
-                _id: user._id
-            }
-            res.send(temp)      
+                const temp = {
+                    name: user.name, 
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    _id: user._id
+                }
+                res.send(temp)   
         }
         else{
             return res.status(400).json({ message: 'Nie ma takiego uzytkownika'});  
@@ -65,6 +65,23 @@ router.post('/blockuser', async (req, res) => {
         return res.status(400).json({ message: error });
     }
 })
+
+router.post('/checkifuserblocked', async (req, res) => {
+    
+    const useremail =  req.body.email
+    try {
+      const user= await User.findOne({email: useremail})
+      if(user.isBlocked){
+        res.send("Zablokowany")
+      }
+      else{
+        res.send("Niezablokowany")
+      }
+    } catch (error) {
+        return res.status(700).json({ message: error });
+    }
+})
+
 
 router.post('/unblockuser', async (req, res) => {
     
