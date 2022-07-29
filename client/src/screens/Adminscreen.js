@@ -35,7 +35,7 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Pokoje" key="2">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-6">
                             <div className='bx_shadow'>
                                 <Rooms />
                             </div>
@@ -62,7 +62,7 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Zablokuj użytkownika" key="5">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-5">
                             <div className='bx_shadow'>
                                 <BlockingUserUI/>
                             </div>
@@ -71,7 +71,7 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Odblokuj użytkownika" key="6">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-5">
                             <div className='bx_shadow'>
                                 <UnblockUserUI/>
                             </div>
@@ -80,7 +80,7 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Harmonogram sprzątania" key="7">
                     <div className='row justify-content-center'>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <div className='bx_shadow'>
                                 <Cleaning/>
                             </div>
@@ -118,7 +118,10 @@ export function Bookings() {
     return (
         <div className="row">
             {loading && (<Loader />)}
-            <table className='table table-bordered'>
+            {bookings.length >=1? 
+            
+       
+            (<table className='table table-bordered'>
                 <thead class="bx_shadow">
                     <tr>
                         <th> ID Rezerwacji</th>
@@ -149,6 +152,7 @@ export function Bookings() {
                     }))}
                 </tbody>
             </table>
+             ): <h1>Obecnie nie ma żadnych rezerwacji</h1>}
         </div>
     )
 }
@@ -340,13 +344,12 @@ export function Cleaning() {
     var n = 0
 
     function filterByDate() {
-       
         var temprooms = []
         var cleanedRoomstemp = []
 
         var today = new Date();
         var day = String(today.getDate()).padStart(2, '0');
-        var month = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var month = String(today.getMonth() + 1).padStart(2, '0');
 
         var dayInt = parseInt(day)
         var monthInt = parseInt(month)
@@ -376,17 +379,18 @@ export function Cleaning() {
     }
     function markAsCleaned(id){
         function getelement(){
-            var element = document.getElementById(id);
+           //var element = document.getElementsByTagName("input")
+            //console.log(element)
+            var element = document.getElementById(0);
             return element
         }
         window.onload =getelement()
     var elem = getelement()
 
-    if(elem == null) console.log("elem is null")
-    else console.log("elem nie jest null")
+
     if (elem.value=="Posprzątany"){
         elem.value = "Nieposprzątany";
-        elem.style.backgroundColor = '#f7747d';
+        elem.style.backgroundColor = '#ebeff2'
     } 
     else{
         elem.value = "Posprzątany";
@@ -413,17 +417,20 @@ export function Cleaning() {
     return (
         <div className='row justify-content-center' >
             {loading && (<Loader/>)}
-            <button className='room_btn btn-primary col-md-2' onClick={filterByDate} > Odśwież liste</button>
+            <button className='room_btn btn-primary col-md-4' onClick={filterByDate} > Odśwież liste</button>
             {roomsToClean.length >= 1?  
             (<div className='row justify-content-center'>
-                <div className= "col-md-4">
+                <div className= "col-md-10">
 
                     {roomsToClean.length && (roomsToClean.map(room =>{
                         return<div className='bx_shadow'>
                             <h1>{room}</h1>
-                            <input onClick={(n)=>markAsCleaned(n)} type="button" value="Nieposprzątany" id={room}></input>
+                            <div className='row justify-content-center'>
+                                <div className= "col-md-5 ">
+                                <input onClick={(n)=>markAsCleaned(n)} type="button" value="Nieposprzątany" id={n}></input>
+                                </div>
+                            </div>
                             {}
-                            {n++}
                         </div>
 
                         
@@ -524,10 +531,10 @@ function Addroom() {
                 <input type='text' className='new-room-input' placeholder='Zdjęcie 2'
                 value={image2} onChange={(e)=>{setimage2(e.target.value)}}/>
 
-                <input type='text' className='new-room-input' placeholder='Zdjęcie 3'
+                <input type='text' className='new-room-input2' placeholder='Zdjęcie 3'
                 value={image3} onChange={(e)=>{setimage3(e.target.value)}}/>
 
-                <div className='text-centre'>
+                <div className='centered'>
                 <button className='room_btn2 btn-primary m-3' onClick={addRoom}> Dodaj nowy pokój</button>
                 </div>
             </div>

@@ -16,14 +16,17 @@ function Room({ room, fromdate, todate }) {
   return (
     <div className="row bx_shadow" data-aos="zoom-in-up">
       <div className='col-md-4'>
-        <img src={room.imageurls[0]} alt={room.imageurls[0]} className="smallimg" />
+        <div className='imageHomescreen'>
+          <img src={room.imageurls[0]} alt={room.imageurls[0]} className="smallimg" />
+        </div>
+        
       </div>
       <div className='col-md-8'>
         <h1>{room.name}</h1>
         <b>
           <p className='p_home'>Liczba osób: {room.people}</p>
           <p className='p_home'>Cena: {room.rentperday} zł</p>
-          {room.description}
+          <p className='p_home2'>{room.description}</p>
           <div style={{ float: 'right' }}>
           <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
           {(fromdate && todate && localStorage.getItem('currentUser')) &&

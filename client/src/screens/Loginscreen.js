@@ -48,7 +48,7 @@ function Loginscreen() {
       {loading && (<Loader/>)}
        <div className ="row justify-content-center mt-5">
             <div className='col-md-2 mt-5'>
-              {error && (<Error message = 'Nieprawidłowy login lub hasło'/>)}
+              {error && (<Error message = 'Nieprawidłowy email lub hasło'/>)}
               {banned && (<Error message = 'Użytkownik został zablokowany'/>)}
                 <div>
                     <h1>Zaloguj</h1>
