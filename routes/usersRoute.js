@@ -101,6 +101,7 @@ router.post('/unblockuser', async (req, res) => {
     }
 })
 
+/*
 router.post('/checkexistingusers', async (req, res) => {
     const email =  req.body.email
     try {
@@ -110,7 +111,7 @@ router.post('/checkexistingusers', async (req, res) => {
         return res.status(400).json({ message: error });
     }
 })
-
+*/
 
 
 module.exports =router

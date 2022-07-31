@@ -12,7 +12,7 @@ function Room({ room, fromdate, todate }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   return (
     <div className="row bx_shadow" data-aos="zoom-in-up">
       <div className='col-md-4'>
@@ -31,7 +31,8 @@ function Room({ room, fromdate, todate }) {
           <button className='room_btn btn-primary m-3' onClick={handleShow}> Zobacz pokój</button>
           {(fromdate && todate && localStorage.getItem('currentUser')) &&
             (<Link to={`/book/${room._id}/${fromdate}/${todate}`}>
-              <button className='room_btn btn-primary' > Zarezerwuj</button>
+              <button className='room_btn btn-primary' onClick="window.location.reload()" > Zarezerwuj</button>
+              
             </Link>)
           }
         </div>

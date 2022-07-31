@@ -39,6 +39,17 @@ router.post("/addroom", async(req, res) => {
 });
 
 
+router.post("/deleteroom", async(req, res) => {
+    const roomid = req.body.roomid
+   
+    try {
+         const room = await Room.deleteOne({'_id' : roomid})
+         res.send('Pokój usunięty')
+    } catch (error) {
+        console.log("tutaj sie wywala")
+         return res.status(400).json({ message: error });
+    }
+});
 
 
 module.exports = router

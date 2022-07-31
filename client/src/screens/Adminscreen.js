@@ -44,23 +44,32 @@ function Adminscreen() {
                 </TabPane>
                 <TabPane tab="Dodaj pokój" key="3">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-8">
                             <div className='bx_shadow'>
                                 <Addroom />
                             </div>
                         </div>
                     </div>
                 </TabPane>
-                <TabPane tab="Użytkownicy" key="4">
+                <TabPane tab="Usuń pokój" key="4">
                     <div className='row justify-content-center'>
-                        <div className="col-md-10">
+                        <div className="col-md-8">
+                            <div className='bx_shadow'>
+                                <Deleteroom />
+                            </div>
+                        </div>
+                    </div>
+                </TabPane>
+                <TabPane tab="Użytkownicy" key="5">
+                    <div className='row justify-content-center'>
+                        <div className="col-md-6">
                             <div className='bx_shadow'>
                                 <Users />
                             </div>
                         </div>
                     </div>
                 </TabPane>
-                <TabPane tab="Zablokuj użytkownika" key="5">
+                <TabPane tab="Zablokuj użytkownika" key="6">
                     <div className='row justify-content-center'>
                         <div className="col-md-5">
                             <div className='bx_shadow'>
@@ -69,7 +78,7 @@ function Adminscreen() {
                         </div>
                     </div>
                 </TabPane>
-                <TabPane tab="Odblokuj użytkownika" key="6">
+                <TabPane tab="Odblokuj użytkownika" key="7">
                     <div className='row justify-content-center'>
                         <div className="col-md-5">
                             <div className='bx_shadow'>
@@ -78,9 +87,9 @@ function Adminscreen() {
                         </div>
                     </div>
                 </TabPane>
-                <TabPane tab="Harmonogram sprzątania" key="7">
+                <TabPane tab="Harmonogram sprzątania" key="8">
                     <div className='row justify-content-center'>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <div className='bx_shadow'>
                                 <Cleaning/>
                             </div>
@@ -217,7 +226,6 @@ export function BlockingUserUI(){
         try {
             setloading(true)
             async function gettingUserByID(){
-                console.log('proba podjeta')
                 const result = await (axios.post('/api/users/blockuser', {userid})).data
                 setuser(result)
                 setloading(false)
@@ -249,14 +257,12 @@ export function UnblockUserUI(){
     const [user, setuser] = useState()
     
     function UnblockUser(){  
-        console.log("function is running") 
         const userid= document.getElementById('uservalue').value
         
         console.log(userid)   
         try {
             setloading(true)
             async function gettingUserByID(){
-                console.log('proba podjeta')
                 const result = await (axios.post('/api/users/unblockuser', {userid})).data
                 setuser(result)
                 setloading(false)
@@ -345,7 +351,6 @@ export function Cleaning() {
 
     function filterByDate() {
         var temprooms = []
-        var cleanedRoomstemp = []
 
         var today = new Date();
         var day = String(today.getDate()).padStart(2, '0');
@@ -379,8 +384,6 @@ export function Cleaning() {
     }
     function markAsCleaned(id){
         function getelement(){
-           //var element = document.getElementsByTagName("input")
-            //console.log(element)
             var element = document.getElementById(0);
             return element
         }
@@ -441,35 +444,7 @@ export function Cleaning() {
             <h1>Obecnie nie ma pokoi do sprzątania</h1>}
         </div>
       )
-/*
-    return (
-        <div className="row justify-content-center">
-            {loading && (<Loader />)}
-            
-            <button className='room_btn btn-primary col-md-2' onClick={filterByDate} > Odśwież liste</button>
-            {roomsToClean.length >= 1?         
-            (            <table className='table'>
-            <thead class="bx_shadow">
-                <tr>
-                    <th> Obecnie zajęte pokoje</th>
-                    <th> Status</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                {roomsToClean.length && (roomsToClean.map(booking => {
-                    return <tr>
-                        <td> {booking.room}</td>
-                        <input onClick={markAsCleaned} type="button" value="Nieposprzątany" id="myButton1"></input>
-                    </tr>
-                }))}
-            </tbody>
-        </table>) :
-        <h1>Obecnie nie ma pokoi do sprzątania</h1>
-        }
-
-        </div>
-    )*/
 }
 
 function Addroom() {
@@ -540,4 +515,40 @@ function Addroom() {
             </div>
         </div>
     )
+}
+
+
+export function Deleteroom(){
+    const [loading, setloading] = useState(true)
+    const [error, seterror] = useState()
+    
+    function DeleteRoom(){  
+        const roomid= document.getElementById('roomvalue').value
+        
+        console.log(roomid)   
+        try {
+            setloading(true)
+            async function deletingRoom(){
+                const result = await (axios.post('/api/rooms/deleteroom', {roomid})).data
+                setloading(false)
+            }
+            deletingRoom() 
+            Swal.fire('Sukces,', 'Pokój został usunięty!', 'success')
+        } catch (error) {
+            Swal.fire('Ups,', 'coś poszło nie tak', 'error')
+            setloading(false)
+            seterror(error)
+        }
+    }
+
+    return (
+        <div className='justify-content-center'>
+            <div className='justify-content-center'>
+                <input type='text' className='input2' placeholder='ID pokoju do usunięcia'
+                id='roomvalue'/>
+                <button className='cleaning_btn' onClick={()=>DeleteRoom()}> Usuń pokój</button>
+            </div>
+            
+        </div>
+)
 }

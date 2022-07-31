@@ -45,22 +45,29 @@ function Homescreen() {
         var temprooms = []
 
         for (const room of duplicaterooms) {
-            var available = false
+            var available = true
             if (room.currentbookings.length > 0) {
                 for (var booking of room.currentbookings) {
-                    if (
-                        !moment(moment(dates[0]).format('DD-MM-YYYY')).isBetween(booking.fromdate, booking.todate)
-                        &&
-                        !moment(moment(dates[1]).format('DD-MM-YYYY')).isBetween(booking.fromdate, booking.todate)
-                    ) {
-                        if (
-                            moment(dates[0]).format('DD-MM-YYYY') !== booking.fromdate &&
-                            moment(dates[0]).format('DD-MM-YYYY') !== booking.todate &&
-                            moment(dates[1]).format('DD-MM-YYYY') !== booking.fromdate &&
-                            moment(dates[1]).format('DD-MM-YYYY') !== booking.todate
-                        ) {
-                            available = true
-                        }
+                    var pickedFromDate= moment(moment(dates[0]).format('DD-MM-YYYY'))._i
+                    var pickedFromDateDays = parseInt(pickedFromDate.toString().substring(0,2))
+                    var pickedFromDateMonths = parseInt(pickedFromDate.toString().substring(4,6))
+
+                    var pickedToDate= moment(moment(dates[1]).format('DD-MM-YYYY'))._i
+                    var pickedToDateDays = parseInt(pickedToDate.toString().substring(0,2))
+                    var pickedToDateMonths = parseInt(pickedToDate.toString().substring(4,6))
+
+                    var bookingFromDateDays = parseInt(booking.fromdate.toString().substring(0,2))
+                    var bookingFromDateMonths = parseInt(booking.fromdate.toString().substring(4,6))
+
+                    var bookingToDateDays = parseInt(booking.todate.toString().substring(0,2))
+                    var bookingToDateMonths = parseInt(booking.todate.toString().substring(4,6))
+
+                    if(pickedFromDateMonths >= bookingFromDateMonths && pickedFromDateMonths <=bookingToDateMonths||
+                        pickedToDateMonths >= bookingFromDateMonths && pickedToDateMonths <=bookingToDateMonths){
+                        if(pickedFromDateDays >= bookingFromDateDays && pickedFromDateDays <=bookingToDateDays ||
+                            pickedToDateDays >= bookingFromDateDays && pickedToDateDays <=bookingToDateDays){
+                                available=false
+                            }
                     }
                 }
             }
@@ -82,47 +89,7 @@ function Homescreen() {
         }
     }
 
-   /* function filterByPeople2(a, rooms2){
-        setpeople(a)
-        if(a=='all'){
-            return rooms2
-        }
-        else{
-            const tempPeople = rooms2.filter(room=>room.people == a)
-            return tempPeople
-        }
-    }
-
-    function filterByPrice2(e, rooms2){
-        setprice(e)
-        if(e=='all'){
-            return rooms2
-        }
-        else if(e=='50'){
-            const tempPrice = rooms2.filter(room=>room.rentperday <= 50)
-            return tempPrice
-        }
-        else if(e=='100'){
-            const tempPrice = rooms2.filter(room=>room.rentperday >50 && room.rentperday <= 100)
-            return tempPrice
-        }
-        else if(e=='200'){
-            const tempPrice = rooms2.filter(room=>room.rentperday >100 && room.rentperday <= 200)
-            return tempPrice
-        }
-        else if(e=='300'){
-            const tempPrice = rooms2.filter(room=>room.rentperday >200)
-            return tempPrice
-        }
-    }
-    function filterByBoth(a, e){
-        setpeople(a)
-        setprice(e)
-        const peopleTemp = filterByPeople2(a, duplicaterooms)
-        const priceTemp = filterByPrice2(e, peopleTemp)
-        setrooms(priceTemp)
-    }
-*/
+   
     function filterByPrice(e){
         setprice(e)
         if(e=='all'){
