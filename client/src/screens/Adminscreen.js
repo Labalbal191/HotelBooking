@@ -279,7 +279,7 @@ export function UnblockUserUI(){
     return (
         <div className='justify-content-center'>
             <div className='justify-content-center'>
-                <input type='text' className='input2' placeholder='ID użytkownika do zablokowania'
+                <input type='text' className='input2' placeholder='ID użytkownika do odblokowania'
                 id='uservalue'/>
                 <button className='cleaning_btn' onClick={()=>UnblockUser()}> Odblokuj użytkownika</button>
             </div>

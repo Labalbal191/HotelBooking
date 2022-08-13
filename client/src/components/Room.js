@@ -54,7 +54,7 @@ function Room({ room, fromdate, todate }) {
               </Carousel.Item>
             })}
           </Carousel>
-          <p>{room.description}</p>
+          <p className='p_home2'>{room.description}</p>
         </Modal.Body>
       </Modal>
     </div>
